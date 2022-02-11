@@ -18,9 +18,37 @@ class Web3ClientConfig:
         return ""
 
     @property
+    def TRAN_TEST(self)->bool:
+        return False
+
+    @property
     def V1_TRAN_TEST(self)->bool:
-        return True
+        return False
     
     @property
     def V2_TRAN_TEST(self)->bool:
+        return False
+
+    @property 
+    def CONTRACT_TEST(self)->bool:
         return True
+    
+    @property
+    def CONTRACT_DEPLOY_A(self)->bool:
+        return False
+
+    @property
+    def CONTRACT_DEPLOY_B(self)->bool:
+        return False
+
+    @property
+    def CONTRACT_DEPLOY_C(self)->bool:
+        return False
+
+    @property
+    def CONTRACT_TRAN_TEST(self)->bool:
+        return False;
+
+    # コントラクト A の アドレス: 0xE891dAf43996985411D99574f9A5735213E3FA34
+    # コントラクト B の アドレス: 0xC097f39C91B1282bB7396D73643c5D6BbebF882e
+    # コントラクト C の アドレス: 0x794f1AECB84f3979569A485d5C7D6C8b14692B0a
