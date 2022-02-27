@@ -23,3 +23,18 @@ class Web3UniswapConfig:
     def UNISWAP_WETH(self)->str:
         return "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
 
+    @property
+    def NULLPTR(self)->str:
+        return "0x0000000000000000000000000000000000000000"
+
+    @property
+    def APPROVE_A(self)->bool:
+        return False;
+
+    @property
+    def APPROVE_B(self)->bool:
+        return False;
+
+    @property
+    def APPROVE_C(self)->bool:
+        return False;
