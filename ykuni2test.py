@@ -1,3 +1,4 @@
+import time
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
 import math
@@ -164,4 +165,35 @@ print_e("コントラクト A のペアアドレス: " + Pair_WETH_A + "\n")
 if Pair_WETH_A == uniconfig.NULLPTR:
     print_e("ペア WETH/A は存在しません。\n")
     
-    
+if uniconfig.ADD_A_WETH:
+    print_e("コントラクト A の WETH/A 作成中... ")
+    tx_a_weth_add=UniswapV2Router02.functions.addLiquidityETH(
+        uniconfig.CONTRACT_A,
+        w3.toWei(100,"ether"),
+        0,
+        w3.toWei(1,"ether"),
+        acc.address,
+        int(time.time())+600
+        ).buildTransaction({'from':acc.address, 'value':w3.toWei(1,"ether")})
+    print_e("完了\n")
+
+    print_e("コントラクト A の WETH/A 試験中... ")        
+    tx_a_weth_add["nonce"]=w3.eth.get_transaction_count(acc.address)
+    gas=w3.eth.estimate_gas(tx_a_weth_add)        
+    tx_a_weth_add["gas"]=gas
+    print_e("%s\n" % gas)
+
+    print_e("コントラクト A の WETH/A 署名中... ")
+    signed_tran=w3.eth.account.sign_transaction(tx_a_weth_add, config.WALLET_PRIVATE_KEY)
+    print_e("完了\n")
+
+    print_e("コントラクト A の WETH/A 送信中... ")
+    hash_tran=w3.eth.send_raw_transaction(signed_tran.rawTransaction)
+    print_e("完了\n")
+    done=False
+    while not done:
+        try:
+            TxTranRet=w3.eth.get_transaction_receipt(w3.toHex(hash_tran))
+            done=True
+        except:
+            done=False

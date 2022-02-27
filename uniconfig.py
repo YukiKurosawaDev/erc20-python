@@ -21,7 +21,7 @@ class Web3UniswapConfig:
 
     @property
     def UNISWAP_WETH(self)->str:
-        return "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+        return "0xc778417E063141139Fce010982780140Aa0cD5Ab"
 
     @property
     def NULLPTR(self)->str:
@@ -29,12 +29,16 @@ class Web3UniswapConfig:
 
     @property
     def APPROVE_A(self)->bool:
-        return False;
+        return False
 
     @property
     def APPROVE_B(self)->bool:
-        return False;
+        return False
 
     @property
     def APPROVE_C(self)->bool:
-        return False;
+        return False
+
+    @property
+    def ADD_A_WETH(self)->bool:
+        return False
