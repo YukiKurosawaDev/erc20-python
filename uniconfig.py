@@ -43,3 +43,7 @@ class Web3UniswapConfig:
     @property
     def ADD_A_WETH(self)->bool:
         return False
+
+    @property
+    def ADD_C_WETH(self)->bool:
+        return False

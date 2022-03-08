@@ -160,6 +160,7 @@ if uniconfig.APPROVE_C:
 
 print_e("コントラクト A のペアアドレス 読み込み中... ")
 Pair_WETH_A=UniswapV2Factory.functions.getPair(uniconfig.UNISWAP_WETH,uniconfig.CONTRACT_A).call();
+print_e("完了\n");
 print_e("コントラクト A のペアアドレス: " + Pair_WETH_A + "\n")
 
 if Pair_WETH_A == uniconfig.NULLPTR:
@@ -197,3 +198,45 @@ if uniconfig.ADD_A_WETH:
             done=True
         except:
             done=False
+
+print_e("コントラクト C のペアアドレス 読み込み中... ")
+Pair_WETH_C=UniswapV2Factory.functions.getPair(uniconfig.UNISWAP_WETH,uniconfig.CONTRACT_C).call();
+print_e("完了\n");
+print_e("コントラクト C のペアアドレス: " + Pair_WETH_C + "\n")
+
+if Pair_WETH_C == uniconfig.NULLPTR:
+    print_e("ペア WETH/C は存在しません。\n")
+    
+if uniconfig.ADD_C_WETH:
+    print_e("コントラクト C の WETH/C 作成中... ")
+    tx_c_weth_add=UniswapV2Router02.functions.addLiquidityETH(
+        uniconfig.CONTRACT_C,
+        w3.toWei(10,"ether"),
+        0,
+        w3.toWei(1,"ether"),
+        acc.address,
+        int(time.time())+600
+        ).buildTransaction({'from':acc.address, 'value':w3.toWei(1,"ether")})
+    print_e("完了\n")
+
+    print_e("コントラクト C の WETH/A 試験中... ")        
+    tx_c_weth_add["nonce"]=w3.eth.get_transaction_count(acc.address)
+    gas=w3.eth.estimate_gas(tx_c_weth_add)        
+    tx_c_weth_add["gas"]=gas
+    print_e("%s\n" % gas)
+
+    print_e("コントラクト C の WETH/C 署名中... ")
+    signed_tran=w3.eth.account.sign_transaction(tx_c_weth_add, config.WALLET_PRIVATE_KEY)
+    print_e("完了\n")
+
+    print_e("コントラクト C の WETH/C 送信中... ")
+    hash_tran=w3.eth.send_raw_transaction(signed_tran.rawTransaction)
+    print_e("完了\n")
+    done=False
+    while not done:
+        try:
+            TxTranRet=w3.eth.get_transaction_receipt(w3.toHex(hash_tran))
+            done=True
+        except:
+            done=False
+
